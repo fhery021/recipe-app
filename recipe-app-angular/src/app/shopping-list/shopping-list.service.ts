@@ -29,6 +29,22 @@ export class ShoppingListService {
     //   this.addIngredient(ingredient);
     // }
     this.ingredients.push(...ingredients);
-    this.ingredientsChanged.next(this.ingredients.slice());
+    this.ingredientsChanged
+      .next(this.ingredients.slice());
+  }
+
+  updateIngredient(index: number, newIngredient: Ingredient) {
+    this.ingredients[index] = newIngredient;
+    this.ingredientsChanged
+      .next(this.ingredients.slice());
+  }
+
+  getIngredientIndex(name: string, amount: number): number {
+    return this.ingredients
+      .findIndex(i => i.amount === amount && i.name === name);
+  }
+
+  deleteIngredientByIndex(index: number) {
+    // this.ingredients.entries
   }
 }
