@@ -39,12 +39,8 @@ export class ShoppingListService {
       .next(this.ingredients.slice());
   }
 
-  getIngredientIndex(name: string, amount: number): number {
-    return this.ingredients
-      .findIndex(i => i.amount === amount && i.name === name);
-  }
-
-  deleteIngredientByIndex(index: number) {
-    // this.ingredients.entries
+  deleteIngredient(index: number) {
+   this.ingredients.splice(index, 1);
+   this.ingredientsChanged.next(this.ingredients.slice());
   }
 }
