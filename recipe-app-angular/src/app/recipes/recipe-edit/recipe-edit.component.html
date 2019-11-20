@@ -17,13 +17,13 @@
         <div class="col-12">
           <div class="form-group">
             <label for="imagePath">Image URL</label>
-            <input type="text" id="imagePath" formControlName="imagePath" class="form-control">
+            <input type="text" id="imagePath" formControlName="imagePath" class="form-control" #imagePath>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <img src="" class="img-responsive">
+          <img [src]="imagePath.value" class="img-fluid" default="https://cdn.pixabay.com/photo/2017/09/22/21/48/table-2777199_960_720.jpg" >
         </div>
       </div>
       <div class="row">
@@ -44,7 +44,7 @@
               <input type="number" class="form-control" formControlName="amount">
             </div>
             <div class="col-2">
-              <button class="btn btn-danger" type="button"(click)="onDeleteIngredient(i)" >X</button>
+              <button class="btn btn-danger" type="button" (click)="onDeleteIngredient(i)">X</button>
             </div>
           </div>
           <hr>
