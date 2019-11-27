@@ -16,7 +16,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./shopping-edit.component.css']
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  @ViewChild('f') shoppingListForm: NgForm;
+  @ViewChild('f', { static: true }) shoppingListForm: NgForm;
 
   subscription: Subscription;
   editMode = false;
