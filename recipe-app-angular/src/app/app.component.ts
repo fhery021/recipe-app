@@ -1,3 +1,5 @@
+import { ErrorHandlerService } from './shared/error-handler.service';
+import { HttpErrorInterceptor } from './shared/http-error.interceptor';
 import { DbService } from './shared/db.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -13,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   errorSubscription: Subscription;
   errors = '';
 
-  constructor(private dbService: DbService) { }
+  constructor(private errorHandlerService: ErrorHandlerService) { }
 
   onNavigate(feature: string) {
     this.loadedFeature = feature;
@@ -21,20 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.errorSubscription = this.dbService
-      .fetch()
-      .subscribe(
-        (data) => { },
-        (error) => this.errors = error
-      );
-
-    this.errorSubscription = this.dbService
-      .save()
-      .subscribe(
-        (data) => { },
-        (error) => this.errors = error
-      );
-
+    this.errorSubscription = this.errorHandlerService.errorSubject.subscribe(err => this.errors = err);
   }
 
   ngOnDestroy(): void {

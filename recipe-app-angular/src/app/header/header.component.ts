@@ -1,7 +1,6 @@
 import { DbService } from './../shared/db.service';
 import { RecipeService } from './../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
