@@ -61,6 +61,11 @@ export class RecipeService {
   }
 
   setRecipes(recipes: Recipe[]) {
+    for (const recipe of recipes) {
+      if (!recipe.ingredients) {
+        recipe.ingredients = [];
+      }
+    }
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
   }
