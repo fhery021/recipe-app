@@ -96,8 +96,8 @@ export class RecipeEditComponent implements OnInit {
     this.goBack();
   }
 
-  private goBack(){
-    this.router.navigate(['../'], {relativeTo: this.route});
+  private goBack() {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   getIngredientsForm() {
