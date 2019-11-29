@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -17,20 +18,24 @@ export class DbService {
 
   constructor(
     private http: HttpClient,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private authService: AuthService
   ) { }
 
   save() {
+    const token = this.authService.getToken();
     return this.http
-      .put(this.RECIPE_URL,
+      .put(
+        this.RECIPE_URL + '?auth=' + token,
         this.recipeService.getRecipes()
       );
   }
 
   fetch() {
+    const token = this.authService.getToken();
     return this.http
       .get(
-        this.RECIPE_URL
+        this.RECIPE_URL + '?auth=' + token
       );
   }
 }
