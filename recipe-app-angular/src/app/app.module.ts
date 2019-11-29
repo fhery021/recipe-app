@@ -1,3 +1,4 @@
+import { AuthService } from './auth/auth.service';
 import { ErrorHandlerService } from './shared/error-handler.service';
 import { HttpErrorInterceptor } from './shared/http-error.interceptor';
 import { DbService } from './shared/db.service';
@@ -51,6 +52,7 @@ import { SigninComponent } from './auth/signin/signin.component';
     RecipeService,
     DbService,
     ErrorHandlerService,
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,

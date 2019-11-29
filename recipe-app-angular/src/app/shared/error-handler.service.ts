@@ -12,5 +12,9 @@ export class ErrorHandlerService {
     this.errorSubject.next(message);
   }
 
+  clearError() {
+    this.errorSubject.next('');
+  }
+
   constructor() { }
 }

@@ -1,8 +1,7 @@
 import { ErrorHandlerService } from './shared/error-handler.service';
-import { HttpErrorInterceptor } from './shared/http-error.interceptor';
-import { DbService } from './shared/db.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +22,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.errorSubscription = this.errorHandlerService.errorSubject.subscribe(err => this.errors = err);
+    this.errorSubscription = this.errorHandlerService
+      .errorSubject
+      .subscribe(err => this.errors = err);
+
+    firebase.initializeApp({
+      apiKey: 'AIzaSyDPHvctjXdV-Wjh1nM3VOVU7fpdSPa56LA',
+      authDomain: 'ng-recipe-book-f326f.firebaseapp.com'
+    });
   }
 
   ngOnDestroy(): void {
