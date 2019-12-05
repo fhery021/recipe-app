@@ -1,1 +1,11 @@
-<h3>Please select a Recipe!</h3>
+<ng-container *ngIf="isEmptyRecipeList(); then empty else notEmpty">
+</ng-container>
+
+<ng-template #empty>
+  <h3>Empty recipe list.</h3>
+  <h4>Click Fetch from Manage menu.</h4>
+</ng-template>
+
+<ng-template #notEmpty>
+  <h3>Please select a Recipe!</h3>
+</ng-template>

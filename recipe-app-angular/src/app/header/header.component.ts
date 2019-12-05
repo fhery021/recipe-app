@@ -1,3 +1,4 @@
+import { AuthService } from './../auth/auth.service';
 import { DbService } from './../shared/db.service';
 import { RecipeService } from './../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,7 +11,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private dbService: DbService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private authService: AuthService
   ) { }
 
 
@@ -38,6 +40,14 @@ export class HeaderComponent implements OnInit {
       .subscribe(
         (response: Response) => console.log(response)
       );
+  }
+
+  isAuthenticated() {
+    return this.authService.isAuthenticated();
+  }
+
+  onLogOut() {
+    this.authService.logout();
   }
 
 }

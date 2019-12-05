@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
 import { ErrorHandlerService } from './shared/error-handler.service';
 import { HttpErrorInterceptor } from './shared/http-error.interceptor';
@@ -53,6 +54,7 @@ import { SigninComponent } from './auth/signin/signin.component';
     DbService,
     ErrorHandlerService,
     AuthService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,

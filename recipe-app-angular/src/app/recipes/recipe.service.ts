@@ -37,6 +37,10 @@ export class RecipeService {
     return this.recipes.slice();
   }
 
+  isEmptyRecipeList() {
+    return this.recipes.length === 0;
+  }
+
   getRecipe(index: number) {
     return this.recipes[index];
   }

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
@@ -12,12 +13,14 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private errorHandlerService: ErrorHandlerService
+    private errorHandlerService: ErrorHandlerService,
+    private router: Router
   ) { }
 
   messages = '';
 
   ngOnInit() {
+    this.messages = '';
   }
 
   onSignIn(form: NgForm) {
@@ -28,7 +31,10 @@ export class SigninComponent implements OnInit {
     const password = form.value.password;
 
     this.authService.signInUser(email, password)
-      .then( () => this.messages = 'Sign in successful')
+      .then(() => {
+        this.messages = 'Sign in successful';
+        this.router.navigate(['/']);
+      })
       .catch(
         (error) => this.errorHandlerService.errorOccured(error)
       );
