@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/auth.service';
 import { RecipeService } from './../recipe.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class RecipeStartComponent implements OnInit {
 
   constructor(
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -17,6 +19,10 @@ export class RecipeStartComponent implements OnInit {
 
   isEmptyRecipeList() {
     return this.recipeService.isEmptyRecipeList();
+  }
+
+  isLoggedIn() {
+    return this.authService.isAuthenticated();
   }
 
 }
