@@ -1,5 +1,4 @@
 import { AuthModule } from './auth/auth.module';
-import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
@@ -28,7 +27,6 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule,
     AppRoutingModule,
     SharedModule,
-    ShoppingListModule,
     AuthModule
   ],
   providers: [
