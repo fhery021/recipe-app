@@ -1,9 +1,9 @@
+import { Recipe } from './../recipes/recipe.model';
 import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { retry, catchError } from 'rxjs/operators';
-import { throwError, Subject, of, Observable, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class DbService {
   fetch() {
     const token = this.authService.getToken();
     return this.http
-      .get(
+      .get<Recipe[]>(
         this.RECIPE_URL + '?auth=' + token
       );
   }

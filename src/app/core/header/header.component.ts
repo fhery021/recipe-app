@@ -2,6 +2,7 @@ import { AuthService } from '../../auth/auth.service';
 import { DbService } from '../../shared/db.service';
 import { RecipeService } from '../../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
+import { Recipe } from 'src/app/recipes/recipe.model';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,7 @@ export class HeaderComponent implements OnInit {
     this.dbService
       .fetch()
       .subscribe(
-        (data: any[]) => {
+        (data: Recipe[]) => {
           this.recipeService.setRecipes(data);
         }
       );
