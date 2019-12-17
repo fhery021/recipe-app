@@ -1,6 +1,6 @@
-import { AuthService } from './../auth/auth.service';
-import { DbService } from './../shared/db.service';
-import { RecipeService } from './../recipes/recipe.service';
+import { AuthService } from '../../auth/auth.service';
+import { DbService } from '../../shared/db.service';
+import { RecipeService } from '../../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
