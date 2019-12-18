@@ -1,3 +1,4 @@
+import { LoggingInterceptor } from './../shared/logging.interceptor';
 import { AuthInterceptor } from './../shared/auth.interceptor';
 import { AppRoutingModule } from './../app-routing.module';
 import { SharedModule } from './../shared/shared.module';
@@ -39,6 +40,11 @@ import { HttpErrorInterceptor } from '../shared/http-error.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoggingInterceptor,
       multi: true
     }
   ]
