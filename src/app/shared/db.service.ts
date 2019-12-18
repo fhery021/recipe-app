@@ -1,7 +1,6 @@
 import { Recipe } from './../recipes/recipe.model';
-import { AuthService } from './../auth/auth.service';
 import { RecipeService } from './../recipes/recipe.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 
@@ -10,32 +9,34 @@ import { Subject, BehaviorSubject } from 'rxjs';
 })
 export class DbService {
 
-  private PROJECT_URL = 'https://ng-recipe-book-f326f.firebaseio.com/';
-  private RECIPE_URL = this.PROJECT_URL + 'recipes.json';
-
+  private readonly PROJECT_URL = 'https://ng-recipe-book-f326f.firebaseio.com/';
+  private readonly RECIPE_URL = this.PROJECT_URL + 'recipes.json';
 
   public errors: Subject<string> = new BehaviorSubject<string>(null);
 
   constructor(
     private http: HttpClient,
-    private recipeService: RecipeService,
-    private authService: AuthService
+    private recipeService: RecipeService
   ) { }
 
   save() {
-    const token = this.authService.getToken();
-    return this.http
-      .put(
-        this.RECIPE_URL + '?auth=' + token,
-        this.recipeService.getRecipes()
-      );
+    const req = new HttpRequest('PUT', this.RECIPE_URL, this.recipeService.getRecipes(),
+      { reportProgress: true });
+
+    return this.http.request(req);
+
+    // return this.http
+    //   .put(
+    //     this.RECIPE_URL,
+    //     this.recipeService.getRecipes(),
+    //     { params: this.getHttpParams() }
+    //   );
   }
 
   fetch() {
-    const token = this.authService.getToken();
     return this.http
-      .get<Recipe[]>(
-        this.RECIPE_URL + '?auth=' + token
-      );
+      .get<Recipe[]>(this.RECIPE_URL);
   }
+
+
 }

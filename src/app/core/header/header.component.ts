@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     this.dbService
       .save()
       .subscribe(
-        (response: Response) => console.log(response)
+        (response) => console.log(response)
       );
   }
 
