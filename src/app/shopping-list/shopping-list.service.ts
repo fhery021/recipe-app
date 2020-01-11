@@ -8,17 +8,9 @@ export class ShoppingListService {
 
   private ingredients: Ingredient[] = [];
 
-  getIngredients() {
-    return this.ingredients.slice();
-  }
 
   getIndredient(index: number) {
     return this.ingredients[index];
-  }
-
-  addIngredient(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
-    this.ingredientsChanged.next(this.ingredients.slice());
   }
 
   addIngredients(ingredients: Ingredient[]) {
