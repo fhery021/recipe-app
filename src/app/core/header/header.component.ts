@@ -1,8 +1,12 @@
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../auth/auth.service';
 import { DbService } from '../../shared/db.service';
 import { RecipeService } from '../../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/recipes/recipe.model';
+import * as fromApp from '../../store/app.reducers';
+import * as fromAuth from '../../auth/store/auth.reducers';
 
 @Component({
   selector: 'app-header',
@@ -10,14 +14,18 @@ import { Recipe } from 'src/app/recipes/recipe.model';
 })
 export class HeaderComponent implements OnInit {
 
+  authState: Observable<fromAuth.State>;
+
   constructor(
     private dbService: DbService,
     private recipeService: RecipeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<fromApp.AppState>,
   ) { }
 
 
   ngOnInit() {
+    this.authState = this.store.select('auth');
   }
 
   private loadData() {
@@ -40,10 +48,6 @@ export class HeaderComponent implements OnInit {
       .subscribe(
         (response) => console.log(response)
       );
-  }
-
-  isAuthenticated() {
-    return this.authService.isAuthenticated();
   }
 
   onLogOut() {

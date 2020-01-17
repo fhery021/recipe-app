@@ -1,6 +1,9 @@
-import { AuthService } from './../../auth/auth.service';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { RecipeService } from './../recipe.service';
 import { Component, OnInit } from '@angular/core';
+import * as fromApp from '../../store/app.reducers';
+import * as fromAuth from '../../auth/store/auth.reducers';
 
 @Component({
   selector: 'app-recipe-start',
@@ -11,7 +14,7 @@ export class RecipeStartComponent implements OnInit {
 
   constructor(
     private recipeService: RecipeService,
-    private authService: AuthService
+    private store: Store<fromApp.AppState>
   ) { }
 
   ngOnInit() {
@@ -22,7 +25,10 @@ export class RecipeStartComponent implements OnInit {
   }
 
   isLoggedIn() {
-    return this.authService.isAuthenticated();
+    return this.store.select('auth')
+      .pipe(
+        map((authState: fromAuth.State) => authState.authenticated)
+      );
   }
 
 }

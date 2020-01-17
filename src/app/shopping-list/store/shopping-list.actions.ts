@@ -1,4 +1,4 @@
-import { Ingredient } from './../../shared/Ingredient.model';
+import { Ingredient } from '../../shared/ingredient.model';
 import { Action } from '@ngrx/store';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';

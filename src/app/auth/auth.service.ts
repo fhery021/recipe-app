@@ -1,14 +1,31 @@
+import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import * as firebase from 'firebase';
+import * as fromApp from '../store/app.reducers';
+import * as authActions from './store/auth.actions';
 
 @Injectable()
 export class AuthService {
 
-  token: string = null;
+  constructor(private store: Store<fromApp.AppState>) {
+
+  }
+
+  // token: string = null;
 
   signUpUser(email: string, password: string) {
     return firebase.auth()
-      .createUserWithEmailAndPassword(email, password);
+      .createUserWithEmailAndPassword(email, password)
+      .then(
+        user => {
+          this.store.dispatch(new authActions.SignUp());
+          firebase.auth().currentUser.getIdToken()
+            .then(
+              (tkn: string) => this.store.dispatch(new authActions.SetToken(tkn))
+            );
+
+        }
+      );
   }
 
   signInUser(email: string, password: string) {
@@ -16,32 +33,17 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(
         () => {
+          this.store.dispatch(new authActions.SignIn());
           firebase.auth().currentUser.getIdToken()
             .then(
-              (token: string) => this.token = token
+              (tkn: string) => this.store.dispatch(new authActions.SetToken(tkn))
             );
         }
       );
   }
 
-  getToken() {
-    if (firebase.auth().currentUser === null) {
-      this.token = null;
-      return null;
-    }
-    firebase.auth().currentUser.getIdToken()
-      .then(
-        (token: string) => this.token = token
-      );
-    return this.token;
-  }
-
-  isAuthenticated() {
-    return this.token != null;
-  }
-
   logout() {
     firebase.auth().signOut();
-    this.token = null;
+    this.store.dispatch(new authActions.LogOut());
   }
 }
