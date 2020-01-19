@@ -1,7 +1,9 @@
-import { AuthService } from './../auth.service';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
+import * as fromApp from '../../store/app.reducers';
+import * as AuthActions from './../store/auth.actions';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +13,7 @@ import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
 export class SignupComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
+    private store: Store<fromApp.AppState>,
     private errorHandlerService: ErrorHandlerService
   ) { }
 
@@ -25,12 +27,8 @@ export class SignupComponent implements OnInit {
     this.messages = '';
 
     const email = form.value.email;
-    const password = form.value.password;
+    const pwd = form.value.password;
 
-    this.authService.signUpUser(email, password)
-      .then( () => this.messages = 'Sign up successful')
-      .catch(
-        (error) => this.errorHandlerService.errorOccured(error)
-      );
+    this.store.dispatch(new AuthActions.TrySignUp({username: email, password: pwd}));
   }
 }
