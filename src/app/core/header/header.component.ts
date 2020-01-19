@@ -1,13 +1,12 @@
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AuthService } from '../../auth/auth.service';
 import { DbService } from '../../shared/db.service';
 import { RecipeService } from '../../recipes/recipe.service';
 import { Component, OnInit } from '@angular/core';
-import { Recipe } from 'src/app/recipes/recipe.model';
 import * as fromApp from '../../store/app.reducers';
 import * as fromAuth from '../../auth/store/auth.reducers';
-
+import * as AuthActions from '../../auth/store/auth.actions';
+import * as RecipeActions from '../../recipes/store/recipe.actions';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
@@ -19,7 +18,6 @@ export class HeaderComponent implements OnInit {
   constructor(
     private dbService: DbService,
     private recipeService: RecipeService,
-    private authService: AuthService,
     private store: Store<fromApp.AppState>,
   ) { }
 
@@ -28,30 +26,16 @@ export class HeaderComponent implements OnInit {
     this.authState = this.store.select('auth');
   }
 
-  private loadData() {
-    this.dbService
-      .fetch()
-      .subscribe(
-        (data: Recipe[]) => {
-          this.recipeService.setRecipes(data);
-        }
-      );
-  }
-
   onFetch() {
-    this.loadData();
+    this.store.dispatch(new RecipeActions.FetchRecipes());
   }
 
   onSaveData() {
-    this.dbService
-      .save()
-      .subscribe(
-        (response) => console.log(response)
-      );
+    this.store.dispatch(new RecipeActions.StoreRecipes());
   }
 
-  onLogOut() {
-    this.authService.logout();
+  onLogout() {
+    this.store.dispatch(new AuthActions.Logout());
   }
 
 }

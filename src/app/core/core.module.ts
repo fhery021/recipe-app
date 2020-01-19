@@ -8,7 +8,6 @@ import { NgModule } from '@angular/core';
 import { RecipeService } from '../recipes/recipe.service';
 import { DbService } from '../shared/db.service';
 import { ErrorHandlerService } from '../shared/error-handler.service';
-import { AuthService } from '../auth/auth.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from '../shared/http-error.interceptor';
 
@@ -26,10 +25,7 @@ import { HttpErrorInterceptor } from '../shared/http-error.interceptor';
     HeaderComponent
   ],
   providers: [
-    RecipeService,
-    DbService,
     ErrorHandlerService,
-    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,

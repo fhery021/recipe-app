@@ -1,8 +1,10 @@
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducers';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-signin',
@@ -12,9 +14,8 @@ import { ErrorHandlerService } from 'src/app/shared/error-handler.service';
 export class SigninComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
     private errorHandlerService: ErrorHandlerService,
-    private router: Router
+    private store: Store<fromApp.AppState>
   ) { }
 
   messages = '';
@@ -30,14 +31,7 @@ export class SigninComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
 
-    this.authService.signInUser(email, password)
-      .then(() => {
-        this.messages = 'Sign in successful';
-        this.router.navigate(['/']);
-      })
-      .catch(
-        (error) => this.errorHandlerService.errorOccured(error)
-      );
+    this.store.dispatch(new AuthActions.TrySignin({username: email, password: password}));
 
   }
 }

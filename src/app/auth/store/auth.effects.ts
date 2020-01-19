@@ -1,36 +1,27 @@
-import { map, switchMap, mergeMap } from 'rxjs/operators';
+import { map, switchMap, mergeMap, tap } from 'rxjs/operators';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import * as AuthActions from './auth.actions';
 import * as firebase from 'firebase';
 import { from } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
 
-  // OMG, this is horrible
-
   @Effect()
-  authSignUp = this.action$
+  authSignUp = this.actions$
     .pipe(
-      ofType(AuthActions.TRY_SIGN_UP)
-    )
-    .pipe(
+      ofType(AuthActions.TRY_SIGN_UP),
       map((action: AuthActions.TrySignUp) => {
         return action.payload;
-      })
-    )
-    .pipe(
+      }),
       switchMap((authData: { username: string, password: string }) => {
         return from(firebase.auth().createUserWithEmailAndPassword(authData.username, authData.password));
-      })
-    )
-    .pipe(
+      }),
       switchMap(() => {
         return from(firebase.auth().currentUser.getIdToken());
-      })
-    )
-    .pipe(
+      }),
       mergeMap((token: string) => {
         return [
           {
@@ -44,15 +35,40 @@ export class AuthEffects {
       })
     );
 
-    // @Effect()
-    // authSignIn = this.actions@
+  @Effect()
+  authSignin = this.actions$
+  .pipe(
+    ofType(AuthActions.TRY_SIGNIN),
+    map((action: AuthActions.TrySignUp) => {
+      return action.payload;
+    }),
+    switchMap((authData: { username: string, password: string }) => {
+      return from(firebase.auth().signInWithEmailAndPassword(authData.username, authData.password));
+    }),
+    switchMap(() => {
+      return from(firebase.auth().currentUser.getIdToken());
+    }),
+    mergeMap((token: string) => {
+      this.router.navigate(['/']);
+      return [
+        {
+          type: AuthActions.SIGN_IN
+        },
+        {
+          type: AuthActions.SET_TOKEN,
+          payload: token
+        }
+      ];
+    })
+  );
 
-  constructor(private action$: Actions) { }
+  @Effect({ dispatch: false })
+  authLogout = this.actions$
+  .pipe(
+    ofType(AuthActions.LOGOUT),
+    tap(() => this.router.navigate(['/']))
+  );
 
-  // this.authService.signUpUser(email, password)
-  //   .then( () => this.messages = 'Sign up successful')
-  //   .catch(
-  //     (error) => this.errorHandlerService.errorOccured(error)
-  //   );
+  constructor(private actions$: Actions, private router: Router) { }
 
 }
