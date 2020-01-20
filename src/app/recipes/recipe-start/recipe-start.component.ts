@@ -1,9 +1,10 @@
+import { FeatureState } from './../store/recipe.reducers';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { RecipeService } from './../recipe.service';
 import { Component, OnInit } from '@angular/core';
-import * as fromApp from '../../store/app.reducers';
 import * as fromAuth from '../../auth/store/auth.reducers';
+import * as fromRecipe from '../store/recipe.reducers';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-start',
@@ -12,17 +13,16 @@ import * as fromAuth from '../../auth/store/auth.reducers';
 })
 export class RecipeStartComponent implements OnInit {
 
+  recipeState: Observable<fromRecipe.State>;
+
   constructor(
-    private recipeService: RecipeService,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromRecipe.FeatureState>
   ) { }
 
   ngOnInit() {
+    this.recipeState = this.store.select('recipes');
   }
 
-  isEmptyRecipeList() {
-    return this.recipeService.isEmptyRecipeList();
-  }
 
   isLoggedIn() {
     return this.store.select('auth')

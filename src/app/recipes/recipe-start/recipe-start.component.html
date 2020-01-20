@@ -1,15 +1,15 @@
-<ng-container *ngIf="isEmptyRecipeList(); then empty else notEmpty">
+<ng-container *ngIf="(recipeState | async).recipes; then empty else notEmpty">
 </ng-container>
 
 <ng-template #empty>
   <h3>Empty recipe list.</h3>
 </ng-template>
 
-<div *ngIf="isEmptyRecipeList() && isLoggedIn()" >
+<div *ngIf="(recipeState | async).recipes && isLoggedIn()" >
   <h4>Click Fetch from Manage menu.</h4>
 </div>
 
-<div *ngIf="isEmptyRecipeList() && !isLoggedIn()" >
+<div *ngIf="(recipeState | async).recipes && !isLoggedIn()" >
   <h4>Please log in.</h4>
 </div>
 

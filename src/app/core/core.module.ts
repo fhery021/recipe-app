@@ -5,8 +5,6 @@ import { SharedModule } from './../shared/shared.module';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { NgModule } from '@angular/core';
-import { RecipeService } from '../recipes/recipe.service';
-import { DbService } from '../shared/db.service';
 import { ErrorHandlerService } from '../shared/error-handler.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from '../shared/http-error.interceptor';
